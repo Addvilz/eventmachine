@@ -36,8 +36,8 @@
         opts = opts || {};
         var options = deepExtend({}, defaultOptions, opts);
 
-        this.o = function (event, callback) {
-            if(options.debug){
+        this.on = function (event, callback) {
+            if (options.debug) {
                 console.info('Attached handler to event "%s"', event, callback);
             }
             if ('undefined' === typeof eventRegistry[event]) {
@@ -59,7 +59,7 @@
             var event = args.shift();
 
             if ('undefined' === typeof eventRegistry[event]) {
-                if(options.debug){
+                if (options.debug) {
                     console.info('No handlers registered for event "%s"', event);
                 }
                 return;
