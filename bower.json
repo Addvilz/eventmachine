@@ -1,0 +1,16 @@
+{
+  "name": "eventmachine",
+  "version": "1.0.0",
+  "authors": [
+    "Matiss Treinis <mrtreinis@gmail.com>"
+  ],
+  "description": "A light-weight implementation of event emitter",
+  "main": "dist/eventmachine.js",
+  "keywords": [
+    "event",
+    "events",
+    "emitter"
+  ],
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/Addvilz/eventmachine"
+}
