@@ -37,10 +37,12 @@ eventMachine.emmit('some:demo:event', 'arg1 value', 'arg2 value');
 
 **Options**
 
+
 `debug : true/false`: print mostly useless debug messages
 
 `eventErrorHandler: function (e, eventName, args, eventHandler)` do something when invoked event does boo-boo
 
 
 **License**
+
 Licensed under terms and conditions of Apache 2.0 license.
