@@ -27,7 +27,7 @@
         var eventRegistry = {};
 
         var defaultOptions = {
-            debug: true,
+            debug: false,
             eventErrorHandler: function (e, eventName, args, eventHandler) {
                 console.error('Event handler for "%s" resulted in error:', eventName, e, args, eventHandler);
             }
