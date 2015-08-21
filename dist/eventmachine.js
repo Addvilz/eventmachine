@@ -23,7 +23,14 @@
         return out;
     };
 
+    /**
+     * EventMachine
+     * @param {Object} opts
+     * @constructor
+     */
     var EventMachine = function (opts) {
+        var self = this;
+
         var eventRegistry = {};
 
         var defaultOptions = {
@@ -36,7 +43,12 @@
         opts = opts || {};
         var options = deepExtend({}, defaultOptions, opts);
 
-        this.on = function (event, callback) {
+        /**
+         * Adds a listener to the end of the listeners array for the specified event.
+         * @param event
+         * @param {Function} callback
+         */
+        self.on = function (event, callback) {
             if (options.debug) {
                 console.info('Attached handler to event "%s"', event, callback);
             }
@@ -46,7 +58,16 @@
             eventRegistry[event].push(callback);
         };
 
-        this.emmit = function () {
+        /**
+         * Emmit event
+         * @param {string} eventName
+         * @param {...mixed} args
+         */
+        self.emmit = function () {
+            var innerScope = this;
+            if (innerScope instanceof EventMachine) {
+                innerScope = null;
+            }
 
             var args = (function (args) {
                 var callableArgs = [];
@@ -65,25 +86,86 @@
                 return;
             }
 
-            var eventCollection = eventRegistry[event];
+            var eventCollection = self.listeners(event);
 
             (function (events, args) {
                 for (var i in events) {
 
                     var eventCallable = (function (event, eventName, args, options) {
                         try {
-                            event.apply(null, args);
+                            event.apply(innerScope, args);
                         } catch (e) {
                             options.eventErrorHandler(e, eventName, args, event);
                         }
                     });
 
-                    window.setTimeout(eventCallable.bind(null, events[i], event, args, options), 0);
+                    window.setTimeout(eventCallable.bind(innerScope, events[i], event, args, options), 0);
                 }
             })(eventCollection, args);
         };
+
+        /**
+         * Remove a listener from the listener array for the specified event.
+         * @param {string} event
+         * @param {Function} listener
+         * @returns {boolean}
+         */
+        self.removeListener = function (event, listener) {
+            if ('undefined' === typeof eventRegistry[event]) {
+                return false;
+            }
+            var i = eventRegistry[event].indexOf(listener);
+            if (i < 0) {
+                return false;
+            }
+            delete eventRegistry[event][i];
+            return true;
+        };
+
+        /**
+         * Remove all listeners from the listener array for the specified event.
+         * @param {string} event
+         */
+        self.removeAllListeners = function (event) {
+            if ('undefined' !== typeof eventRegistry[event]) {
+                delete eventRegistry[event];
+            }
+        };
+
+        /**
+         * Returns an array of listeners for the specified event.
+         * @param {string} event
+         * @returns {Function[]}
+         */
+        self.listeners = function (event) {
+            if ('undefined' !== typeof eventRegistry[event]) {
+                return eventRegistry[event];
+            }
+
+            return [];
+        };
+
+        /**
+         * Get a wrapper to forward given call to event handler.
+         * @param {string} event
+         * @returns {Function}
+         */
+        self.forward = function (event) {
+            return function () {
+                return self.emmit
+                    .bind(this, event)
+                    .apply(this, arguments)
+                    ;
+            };
+        };
     };
 
+    /**
+     * Get a new Instance of EventMachine
+     * @param {Object} opts
+     * @returns {EventMachine}
+     * @constructor
+     */
     window.EventMachine = function (opts) {
         return new EventMachine(opts);
     }

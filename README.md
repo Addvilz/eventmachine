@@ -3,25 +3,25 @@ EventMachine
 
 EventMachine is a light-weight implementation of event emitter.
 
-**Why another one?!**
+### Why another one?!
 
 I needed a event emitter that:
 
 1. works in a browser;
-2. is not a resource hog (EventMachine is just 1kB minified);
+2. is not a resource hog (EventMachine is just 1.4kB minified);
 3. has no external dependencies;
 4. callbacks be executed in a fresh stack;
 5. with a learning curve analogue to that of banana;
 
-**Dependencies**
+### Dependencies
 
 None.
 
-**Installation**
+### Installation
 
 Clone this repository, download the `dist/eventmachine.js` or use `bower install eventmachine`.
 
-**Sample usage**
+### Sample usage
 
 ```js
 var options = {};
@@ -32,17 +32,52 @@ eventMachine.on('some:demo:event', function (arg1, arg2) {
 });
 
 eventMachine.emmit('some:demo:event', 'arg1 value', 'arg2 value');
-
 ```
 
-**Options**
+### API
+
+#### on(event,callback)
+
+Adds a listener to the end of the listeners array for the specified event.
+
+#### emmit(event, ...args)
+
+Emmit an event with given name and optional arguments.
+
+#### forward(event)
+
+Get a wrapper to forward given call to event handler. This function is pretty neat, as it allows you to do this -
+
+```js
+document.getElementById('button').addEventListener('click', eventMachine.forward('some:event'));
+```
+
+or this
+
+```js
+$('#button').click(eventMachine.forward('some:event'));
+```
+
+#### removeListener(event, listener)
+
+Remove a listener from the listener array for the specified event.
+
+#### removeAllListeners(event)
+
+Remove all listeners from the listener array for the specified event.
+
+#### listeners(event)
+
+Returns an array of listeners for the specified event.
+
+### Options
 
 
-`debug : true/false`: print mostly useless debug messages
+`debug: true/false`: print mostly useless debug messages
 
 `eventErrorHandler: function (e, eventName, args, eventHandler)` do something when invoked event does boo-boo
 
 
-**License**
+### License
 
 Licensed under terms and conditions of Apache 2.0 license.
