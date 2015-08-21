@@ -49,7 +49,8 @@ Emmit an event with given name and optional arguments.
 Get a wrapper to forward given call to event handler. This function is pretty neat, as it allows you to do this -
 
 ```js
-document.getElementById('button').addEventListener('click', eventMachine.forward('some:event'));
+document.getElementById('button')
+    .addEventListener('click', eventMachine.forward('some:event'));
 ```
 
 or this
