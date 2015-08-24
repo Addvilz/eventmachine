@@ -71,6 +71,28 @@ Remove all listeners from the listener array for the specified event.
 
 Returns an array of listeners for the specified event.
 
+#### wrap(object, options)
+
+Wrap an object with EventMachine functionality. Wrap works similarly as `EventMachine()` factory, but instead of giving a new instance
+of the EventMachine, this method returns the given instance of already existing object with all the functionality of the EventMachine.
+
+
+```js
+var foo = new function () {};
+
+var eventMachine = EventMachine();
+
+eventMachine.extend(foo);
+
+foo.on('bar', function (arg) {
+    console.log(arg);
+});
+
+foo.emmit('bar', 'value'); // value
+
+```
+
+
 ### Options
 
 

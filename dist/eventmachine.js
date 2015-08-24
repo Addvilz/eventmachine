@@ -26,12 +26,14 @@
     /**
      * EventMachine
      * @param {Object} opts
+     * @param {Object} objectToWrap
      * @constructor
      */
-    var EventMachine = function (opts) {
-        var self = this;
+    var EventMachine = function (opts, objectToWrap) {
 
-        var eventRegistry = {};
+        var self = objectToWrap || this;
+
+        self.eventRegistry = {};
 
         var defaultOptions = {
             debug: false,
@@ -41,7 +43,8 @@
         };
 
         opts = opts || {};
-        var options = deepExtend({}, defaultOptions, opts);
+
+        self.options = deepExtend({}, defaultOptions, opts);
 
         /**
          * Adds a listener to the end of the listeners array for the specified event.
@@ -49,13 +52,13 @@
          * @param {Function} callback
          */
         self.on = function (event, callback) {
-            if (options.debug) {
+            if (self.options.debug) {
                 console.info('Attached handler to event "%s"', event, callback);
             }
-            if ('undefined' === typeof eventRegistry[event]) {
-                eventRegistry[event] = [];
+            if ('undefined' === typeof self.eventRegistry[event]) {
+                self.eventRegistry[event] = [];
             }
-            eventRegistry[event].push(callback);
+            self.eventRegistry[event].push(callback);
         };
 
         /**
@@ -79,8 +82,8 @@
 
             var event = args.shift();
 
-            if ('undefined' === typeof eventRegistry[event]) {
-                if (options.debug) {
+            if ('undefined' === typeof self.eventRegistry[event]) {
+                if (self.options.debug) {
                     console.info('No handlers registered for event "%s"', event);
                 }
                 return;
@@ -99,7 +102,7 @@
                         }
                     });
 
-                    window.setTimeout(eventCallable.bind(innerScope, events[i], event, args, options), 0);
+                    window.setTimeout(eventCallable.bind(innerScope, events[i], event, args, self.options), 0);
                 }
             })(eventCollection, args);
         };
@@ -111,14 +114,14 @@
          * @returns {boolean}
          */
         self.removeListener = function (event, listener) {
-            if ('undefined' === typeof eventRegistry[event]) {
+            if ('undefined' === typeof self.eventRegistry[event]) {
                 return false;
             }
-            var i = eventRegistry[event].indexOf(listener);
+            var i = self.eventRegistry[event].indexOf(listener);
             if (i < 0) {
                 return false;
             }
-            delete eventRegistry[event][i];
+            delete self.eventRegistry[event][i];
             return true;
         };
 
@@ -127,8 +130,8 @@
          * @param {string} event
          */
         self.removeAllListeners = function (event) {
-            if ('undefined' !== typeof eventRegistry[event]) {
-                delete eventRegistry[event];
+            if ('undefined' !== typeof self.eventRegistry[event]) {
+                delete self.eventRegistry[event];
             }
         };
 
@@ -138,8 +141,8 @@
          * @returns {Function[]}
          */
         self.listeners = function (event) {
-            if ('undefined' !== typeof eventRegistry[event]) {
-                return eventRegistry[event];
+            if ('undefined' !== typeof self.eventRegistry[event]) {
+                return self.eventRegistry[event];
             }
 
             return [];
@@ -158,6 +161,18 @@
                     ;
             };
         };
+
+        /**
+         * Wrap an object with EventMachine functionality
+         * @param object
+         * @param options
+         */
+        self.extend = function (object, options) {
+            var emitterOptions = options ? deepExtend({}, self.options, options) : self.options;
+            return new EventMachine(emitterOptions, object);
+        };
+
+        return self;
     };
 
     /**
@@ -168,6 +183,6 @@
      */
     window.EventMachine = function (opts) {
         return new EventMachine(opts);
-    }
+    };
 
 })(window);
