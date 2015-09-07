@@ -1,24 +1,24 @@
 {
-  "name": "eventmachine",
-  "version": "1.0.5",
-  "authors": [
-    "Matiss Treinis <mrtreinis@gmail.com>"
-  ],
-  "description": "A light-weight implementation of event emitter",
-  "main": "dist/eventmachine.js",
-  "keywords": [
-    "eventmachine",
-    "event",
-    "events",
-    "emitter"
-  ],
-  "license": "Apache-2.0",
-  "homepage": "https://github.com/Addvilz/eventmachine",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ]
+    "name": "eventmachine",
+    "version": "1.0.6",
+    "authors": [
+        "Matiss Treinis <mrtreinis@gmail.com>"
+    ],
+    "description": "A light-weight implementation of event emitter",
+    "main": "dist/eventmachine.js",
+    "keywords": [
+        "eventmachine",
+        "event",
+        "events",
+        "emitter"
+    ],
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/Addvilz/eventmachine",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ]
 }

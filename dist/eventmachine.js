@@ -101,7 +101,7 @@
                         }
                     });
 
-                    window.setTimeout(eventCallable.bind(innerScope, events[i], event, args, self.options), 0);
+                    setTimeout(eventCallable.bind(innerScope, events[i], event, args, self.options), 0);
                 }
             })(eventCollection, args);
         };
@@ -117,10 +117,13 @@
                 return false;
             }
             var i = self.eventRegistry[event].indexOf(listener);
+
             if (i < 0) {
                 return false;
             }
-            delete self.eventRegistry[event][i];
+
+            self.eventRegistry[event].splice(i, 1);
+
             return true;
         };
 
@@ -187,8 +190,7 @@
      * @returns {EventMachine}
      */
     scope.EventMachine.extend = function (object, options) {
-        var emitterOptions = options ? deepExtend({}, self.options, options) : self.options;
-        return new EventMachine(emitterOptions, object);
+        return new EventMachine(options, object);
     };
 
-})(window);
+})(typeof module.exports !== 'undefined' ? module.exports : window);
