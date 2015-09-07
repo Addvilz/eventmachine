@@ -21,7 +21,10 @@ None.
 
 ### Installation
 
-Clone this repository, download the `dist/eventmachine.js` or use `bower install eventmachine`.
+- clone this repository; or
+- download the `dist/eventmachine.js`; or
+- `bower install eventmachine`; or
+- `npm install eventmachine`.
 
 ### Sample usage
 
@@ -98,7 +101,6 @@ foo.emmit('bar', 'value'); // value
 
 ```
 
-
 ### Options
 
 
@@ -106,6 +108,10 @@ foo.emmit('bar', 'value'); // value
 
 `eventErrorHandler: function (e, eventName, args, eventHandler)` do something when invoked event does boo-boo
 
+
+### Running tests
+
+Running tests require that you install mocha and chai dev dependencies (see package.json). You can then run the tests using the command `npm test`.
 
 ### License
 
