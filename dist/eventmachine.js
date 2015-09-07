@@ -1,4 +1,4 @@
-(function (window) {
+(function (scope) {
     'use strict';
 
     var deepExtend = function (out) {
@@ -6,20 +6,19 @@
 
         for (var i = 1; i < arguments.length; i++) {
             var obj = arguments[i];
-
-            if (!obj)
+            if (!obj) {
                 continue;
-
+            }
             for (var key in obj) {
                 if (obj.hasOwnProperty(key)) {
-                    if (typeof obj[key] === 'object')
+                    if (typeof obj[key] === 'object') {
                         deepExtend(out[key], obj[key]);
-                    else
+                    } else {
                         out[key] = obj[key];
+                    }
                 }
             }
         }
-
         return out;
     };
 
@@ -167,10 +166,6 @@
          * @param object
          * @param options
          */
-        self.extend = function (object, options) {
-            var emitterOptions = options ? deepExtend({}, self.options, options) : self.options;
-            return new EventMachine(emitterOptions, object);
-        };
 
         return self;
     };
@@ -181,8 +176,19 @@
      * @returns {EventMachine}
      * @constructor
      */
-    window.EventMachine = function (opts) {
+    scope.EventMachine = function (opts) {
         return new EventMachine(opts);
+    };
+
+    /**
+     * Allows to extend the object with EventMachine functionality.
+     * @param object
+     * @param options
+     * @returns {EventMachine}
+     */
+    scope.EventMachine.extend = function (object, options) {
+        var emitterOptions = options ? deepExtend({}, self.options, options) : self.options;
+        return new EventMachine(emitterOptions, object);
     };
 
 })(window);

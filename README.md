@@ -34,7 +34,9 @@ eventMachine.on('some:demo:event', function (arg1, arg2) {
 eventMachine.emmit('some:demo:event', 'arg1 value', 'arg2 value');
 ```
 
-### API
+### Instance API
+
+These methods are available for a instantiated EventMachine, e.g. for instance after `EventMachine(opts)` constructor is called.
 
 #### on(event,callback)
 
@@ -71,7 +73,11 @@ Remove all listeners from the listener array for the specified event.
 
 Returns an array of listeners for the specified event.
 
-#### extend(object, options)
+### Static API
+
+These methods are directly available via `EventMachine.{method}`.
+
+#### EventMachine.extend(object, options)
 
 Extend an object with EventMachine functionality. Wrap works similarly as `EventMachine()` factory, but instead of giving a new instance
 of the EventMachine, this method returns the given instance of already existing object with all the functionality of the EventMachine.
@@ -80,9 +86,7 @@ of the EventMachine, this method returns the given instance of already existing 
 ```js
 var foo = new function () {};
 
-var eventMachine = EventMachine();
-
-eventMachine.extend(foo);
+EventMachine.extend(foo);
 
 foo.on('bar', function (arg) {
     console.log(arg);
