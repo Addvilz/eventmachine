@@ -15,6 +15,16 @@ I needed a event emitter that:
 4. callbacks be executed in a fresh stack;
 5. with a learning curve analogue to that of banana;
 
+### What's the difference between EventMachine and X?
+
+EventMachine is pretty similar to a lot of other event emmiters out there, with the only major difference being that all event handler calls are wrapped inside a JavaScript `setTimeout` function call with a timeout value `0`.
+
+This forces the event handlers to be placed and executed at the end of the execution stack by 'pausing' JavaScript execution providing time for the rendering threads in the browser to catch up.
+
+I found this to be a major issue while using other event emmiter implementations, for example, the one from backbone.
+
+You can read more about the effect this has in [this StackOverflow question](http://stackoverflow.com/questions/779379/why-is-settimeoutfn-0-sometimes-useful).
+
 ### Dependencies
 
 None.
