@@ -1,6 +1,8 @@
 EventMachine
 ================
 
+Master: [![Build Status](https://travis-ci.org/Addvilz/eventmachine.svg?branch=master)](https://travis-ci.org/Addvilz/eventmachine)
+
 EventMachine is a light-weight implementation of event emitter.
 
 ### Why another one?!
