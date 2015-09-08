@@ -27,7 +27,7 @@ This forces the event handlers to be placed and executed at the end of the execu
 
 I found this to be a major issue while using other event emmiter implementations, for example, the one from backbone.
 
-You can look at the demo on how this affects UI rendering in [this JSFiddle](https://jsfiddle.net/atnwp3nc/1/).
+You can look at the demo on how this affects UI rendering in [this JSFiddle](https://jsfiddle.net/atnwp3nc/4/).
 
 You can read more about the effect this has in [this StackOverflow question](http://stackoverflow.com/questions/779379/why-is-settimeoutfn-0-sometimes-useful), especially [this answer](http://stackoverflow.com/a/4575011/1653859).
 
