@@ -193,4 +193,4 @@
         return new EventMachine(options, object);
     };
 
-})(typeof module.exports !== 'undefined' ? module.exports : window);
+})(typeof module !== 'undefined' && typeof module.exports !== 'undefined' ? module.exports : window);
