@@ -1,11 +1,11 @@
 EventMachine
 ================
 
-[![Build Status](https://img.shields.io/travis/Addvilz/eventmachine.svg?style=flat-square)](https://travis-ci.org/Addvilz/eventmachine)
-[![NPM](https://img.shields.io/npm/v/eventmachine.svg?style=flat-square)](https://www.npmjs.com/package/eventmachine)
-[![Bower](https://img.shields.io/bower/v/eventmachine.svg?style=flat-square)](http://bower.io/search/?q=eventmachine)
-[![Release](https://img.shields.io/github/release/Addvilz/eventmachine.svg?style=flat-square)](https://github.com/Addvilz/eventmachine/releases)
-[![Apache-2.0](https://img.shields.io/npm/l/eventmachine.svg?style=flat-square)](https://github.com/Addvilz/eventmachine/)
+[![Build Status](http://img.shields.io/travis/Addvilz/eventmachine.svg?style=flat-square)](https://travis-ci.org/Addvilz/eventmachine)
+[![NPM](http://img.shields.io/npm/v/eventmachine.svg?style=flat-square)](https://www.npmjs.com/package/eventmachine)
+[![Bower](http://img.shields.io/bower/v/eventmachine.svg?style=flat-square)](http://bower.io/search/?q=eventmachine)
+[![Release](http://img.shields.io/github/release/Addvilz/eventmachine.svg?style=flat-square)](https://github.com/Addvilz/eventmachine/releases)
+[![Apache-2.0](http://img.shields.io/npm/l/eventmachine.svg?style=flat-square)](https://github.com/Addvilz/eventmachine/)
 
 EventMachine is a light-weight implementation of event emitter.
 
