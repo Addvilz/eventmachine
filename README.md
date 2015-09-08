@@ -15,13 +15,26 @@ I needed a event emitter that:
 4. callbacks be executed in a fresh stack;
 5. with a learning curve analogue to that of banana;
 
+### What's the difference between EventMachine and X?
+
+EventMachine is pretty similar to a lot of other event emmiters out there, with the only major difference being that all event handler calls are wrapped inside a JavaScript `setTimeout` function call with a timeout value `0`.
+
+This forces the event handlers to be placed and executed at the end of the execution stack by 'pausing' JavaScript execution providing time for the rendering threads in the browser to catch up.
+
+I found this to be a major issue while using other event emmiter implementations, for example, the one from backbone.
+
+You can read more about the effect this has in [this StackOverflow question](http://stackoverflow.com/questions/779379/why-is-settimeoutfn-0-sometimes-useful), especially [this answer](http://stackoverflow.com/a/4575011/1653859).
+
 ### Dependencies
 
 None.
 
 ### Installation
 
-Clone this repository, download the `dist/eventmachine.js` or use `bower install eventmachine`.
+- clone this repository; or
+- download the `dist/eventmachine.js`; or
+- `bower install eventmachine`; or
+- `npm install eventmachine`.
 
 ### Sample usage
 
@@ -98,7 +111,6 @@ foo.emmit('bar', 'value'); // value
 
 ```
 
-
 ### Options
 
 
@@ -106,6 +118,10 @@ foo.emmit('bar', 'value'); // value
 
 `eventErrorHandler: function (e, eventName, args, eventHandler)` do something when invoked event does boo-boo
 
+
+### Running tests
+
+Running tests require that you install mocha and chai dev dependencies (see package.json). You can then run the tests using the command `npm test`.
 
 ### License
 
