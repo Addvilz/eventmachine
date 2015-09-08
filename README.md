@@ -124,6 +124,10 @@ foo.emmit('bar', 'value'); // value
 
 `eventErrorHandler: function (e, eventName, args, eventHandler)` do something when invoked event does boo-boo
 
+### Gotchas
+
+Since v1.1.1 in Firefox, execution of the event handler is delayed by 4ms. This is to compromise with Firefox's 4ms minimum timeout value.
+This should not be a show-stopper in most cases, however, I am now actively searching how to circumvent this limitation.
 
 ### Running tests
 

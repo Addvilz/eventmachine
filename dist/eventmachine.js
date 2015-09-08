@@ -1,6 +1,13 @@
 (function (scope) {
     'use strict';
 
+    var executionTimeout = 0;
+
+    if (typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+        // Work around Firefox not deferring execution if timeout is less than 4ms.
+        executionTimeout = 4;
+    }
+
     var deepExtend = function (out) {
         out = out || {};
 
@@ -101,7 +108,11 @@
                         }
                     });
 
-                    setTimeout(eventCallable.bind(innerScope, events[i], event, args, self.options), 0);
+                    setTimeout(
+                        eventCallable.bind(innerScope, events[i], event, args, self.options),
+                        executionTimeout
+                    );
+
                 }
             })(eventCollection, args);
         };
