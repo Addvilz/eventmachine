@@ -68,11 +68,11 @@
         };
 
         /**
-         * Emmit event
+         * Emit event
          * @param {string} eventName
          * @param {...mixed} args
          */
-        self.emmit = function () {
+        self.emit = function () {
             var innerScope = this;
             if (innerScope instanceof EventMachine) {
                 innerScope = null;
@@ -168,7 +168,7 @@
          */
         self.forward = function (event) {
             return function () {
-                return self.emmit
+                return self.emit
                     .bind(this, event)
                     .apply(this, arguments)
                     ;

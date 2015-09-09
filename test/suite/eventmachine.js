@@ -20,7 +20,7 @@ module.exports = function(title, instanceFactory){
                 done();
             });
 
-            currentInstance.emmit('event', 'a', 'b');
+            currentInstance.emit('event', 'a', 'b');
         });
 
         it('calls multiple event handlers', function (done) {
@@ -44,7 +44,7 @@ module.exports = function(title, instanceFactory){
                 done();
             });
 
-            currentInstance.emmit('event');
+            currentInstance.emit('event');
         });
 
         it('returns a functional wrapper for forwarding', function (done) {
@@ -84,7 +84,7 @@ module.exports = function(title, instanceFactory){
 
             currentInstance.listeners('event').should.have.length(1);
 
-            currentInstance.emmit('event');
+            currentInstance.emit('event');
         });
 
         it('removes all listeners', function () {
@@ -110,7 +110,7 @@ module.exports = function(title, instanceFactory){
                 done();
             });
 
-            currentInstance.emmit.call(expectedScope, 'event');
+            currentInstance.emit.call(expectedScope, 'event');
         });
     });
 };

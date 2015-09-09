@@ -20,11 +20,11 @@ I needed a event emitter that:
 
 ### What's the difference between EventMachine and X?
 
-EventMachine is pretty similar to a lot of other event emmiters out there, with the only major difference being that all event handler calls are wrapped inside a JavaScript `setTimeout` function call with a timeout value `0`.
+EventMachine is pretty similar to a lot of other event emiters out there, with the only major difference being that all event handler calls are wrapped inside a JavaScript `setTimeout` function call with a timeout value `0`.
 
 This forces the event handlers to be placed and executed at the end of the execution stack by 'pausing' JavaScript execution providing time for the rendering threads in the browser to catch up.
 
-I found this to be a major issue while using other event emmiter implementations, for example, the one from backbone.
+I found this to be a major issue while using other event emiter implementations, for example, the one from backbone.
 
 You can look at the demo on how this affects UI rendering in [this JSFiddle](https://jsfiddle.net/atnwp3nc/4/).
 
@@ -51,7 +51,7 @@ eventMachine.on('some:demo:event', function (arg1, arg2) {
     console.log(arg1, arg2);
 });
 
-eventMachine.emmit('some:demo:event', 'arg1 value', 'arg2 value');
+eventMachine.emit('some:demo:event', 'arg1 value', 'arg2 value');
 ```
 
 ### Instance API
@@ -62,9 +62,9 @@ These methods are available for a instantiated EventMachine, e.g. for instance a
 
 Adds a listener to the end of the listeners array for the specified event.
 
-#### emmit(event, ...args)
+#### emit(event, ...args)
 
-Emmit an event with given name and optional arguments.
+Emit an event with given name and optional arguments.
 
 #### forward(event)
 
@@ -112,7 +112,7 @@ foo.on('bar', function (arg) {
     console.log(arg);
 });
 
-foo.emmit('bar', 'value'); // value
+foo.emit('bar', 'value'); // value
 
 ```
 
