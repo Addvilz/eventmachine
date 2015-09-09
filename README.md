@@ -7,7 +7,7 @@ EventMachine
 [![Release](http://img.shields.io/github/release/Addvilz/eventmachine.svg?style=flat-square)](https://github.com/Addvilz/eventmachine/releases)
 [![Apache-2.0](http://img.shields.io/npm/l/eventmachine.svg?style=flat-square)](https://github.com/Addvilz/eventmachine/)
 
-EventMachine is a light-weight implementation of event emitter.
+EventMachine is a light-weight, deferred execution event emitter.
 
 ### Why another one?!
 
