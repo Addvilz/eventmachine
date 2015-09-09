@@ -93,6 +93,10 @@ Remove all listeners from the listener array for the specified event.
 
 Returns an array of listeners for the specified event.
 
+#### setDeferredFor(event, state)
+
+Turn deferred execution for handler on or off, for all current and future handlers of given event.
+
 ### Static API
 
 These methods are directly available via `EventMachine.{method}`.
@@ -116,12 +120,41 @@ foo.emit('bar', 'value'); // value
 
 ```
 
-### Options
+### Disabling deferred execution for single handler
 
+Consider this example:
+
+```js
+var handler = new function () {};
+handler.disableDeferred = true;
+
+em.on('event', handler); // Executes immediately
+```
+
+### Options
 
 `debug: true/false`: print mostly useless debug messages
 
+`disableDeferred`: disable deferred execution for the entire EventMachine instance.
+
+`disableDeferredFor`: object with event name as key, and boolean as value: disable deferred execution for indicated events by name.
+
 `eventErrorHandler: function (e, eventName, args, eventHandler)` do something when invoked event does boo-boo
+
+### Performance considerations
+
+As you might imagine, wrapping execution in setTimeout takes resources and ... time? No pun intended.
+
+Consider the fallowing benchmark (median office machine) doing ee.emit(x)) with empty callback function X number of times:
+
+|          |  10k  |  100k |   1m  | 10m |
+|:--------:|:-----:|:-----:|:-----:|:---:|
+|  Direct  | 1-3ms |  15ms | 120ms |  1s |
+| Deferred |  60ms | 600ms |  6.8s |  ?? |
+
+The only difference between the two is that execution of the callback is wrapped in setTimout, nothing more. So you should be careful about
+how many emits you do. For that reason it is possible to disable this either globally for instance of the emitter, for event  by name and
+for each separate handler.
 
 ### Gotchas
 

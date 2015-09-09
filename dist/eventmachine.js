@@ -29,6 +29,14 @@
         return out;
     };
 
+    var eventCallable = function (event, eventName, args, eventErrorHandler) {
+        try {
+            event.apply(this, args);
+        } catch (e) {
+            eventErrorHandler(e, eventName, args, event);
+        }
+    };
+
     /**
      * EventMachine
      * @param {Object} opts
@@ -43,6 +51,8 @@
 
         var defaultOptions = {
             debug: false,
+            disableDeferred: false,
+            disableDeferredFor: {},
             eventErrorHandler: function (e, eventName, args, eventHandler) {
                 console.error('Event handler for "%s" resulted in error:', eventName, e, args, eventHandler);
             }
@@ -61,32 +71,36 @@
             if (self.options.debug) {
                 console.info('Attached handler to event "%s"', event, callback);
             }
+
             if ('undefined' === typeof self.eventRegistry[event]) {
                 self.eventRegistry[event] = [];
             }
+
             self.eventRegistry[event].push(callback);
+            return self;
         };
 
         /**
          * Emit event
-         * @param {string} eventName
-         * @param {...mixed} args
+         * @param event
+         * @param a1
+         * @param a2
+         * @param a3
+         * @param a4
+         * @param a5
          */
-        self.emit = function () {
+        self.emit = function (event, a1, a2, a3, a4, a5) {
             var innerScope = this;
+
             if (innerScope instanceof EventMachine) {
                 innerScope = null;
             }
 
-            var args = (function (args) {
-                var callableArgs = [];
-                for (var i in args) {
-                    callableArgs.push(args[i]);
-                }
-                return callableArgs;
-            })(arguments);
-
-            var event = args.shift();
+            var argsLength = arguments.length;
+            var args = new Array(argsLength);
+            for (var i = 1; i < argsLength; ++i) {
+                args[i - 1] = arguments[i];
+            }
 
             if ('undefined' === typeof self.eventRegistry[event]) {
                 if (self.options.debug) {
@@ -97,24 +111,36 @@
 
             var eventCollection = self.listeners(event);
 
-            (function (events, args) {
-                for (var i in events) {
+            for (var ii = 0, len = eventCollection.length; ii < len; ii++) {
+                var eventHandler = eventCollection[ii];
 
-                    var eventCallable = (function (event, eventName, args, options) {
-                        try {
-                            event.apply(innerScope, args);
-                        } catch (e) {
-                            options.eventErrorHandler(e, eventName, args, event);
-                        }
-                    });
-
-                    setTimeout(
-                        eventCallable.bind(innerScope, events[i], event, args, self.options),
-                        executionTimeout
+                if (
+                    self.options.disableDeferred ||
+                    typeof eventHandler.disableDeferred !== 'undefined' ||
+                    self.options.disableDeferredFor
+                ) {
+                    eventCallable.call(
+                        innerScope,
+                        eventCollection[ii],
+                        event,
+                        args,
+                        self.options.eventErrorHandler
                     );
-
+                    continue;
                 }
-            })(eventCollection, args);
+
+                setTimeout(
+                    eventCallable.bind(
+                        innerScope,
+                        eventCollection[ii],
+                        event,
+                        args,
+                        self.options.eventErrorHandler
+                    ),
+                    executionTimeout
+                );
+            }
+            return self;
         };
 
         /**
@@ -146,6 +172,7 @@
             if ('undefined' !== typeof self.eventRegistry[event]) {
                 delete self.eventRegistry[event];
             }
+            return self;
         };
 
         /**
@@ -173,6 +200,16 @@
                     .apply(this, arguments)
                     ;
             };
+        };
+
+        /**
+         * Turn deferred execution for handler on or off, for all current and future handlers of given event.
+         * @param event
+         * @param state
+         */
+        self.setDeferredFor = function (event, state) {
+            self.options.disableDeferredFor[event] = state ? true : false;
+            return self;
         };
 
         /**
