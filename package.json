@@ -1,7 +1,7 @@
 {
     "name": "eventmachine",
     "version": "2.2.1",
-    "description": "A light-weight implementation of event emitter",
+    "description": "EventMachine is a light-weight, deferred execution event emitter.",
     "main": "dist/eventmachine.js",
     "directories": {
         "test": "test"
