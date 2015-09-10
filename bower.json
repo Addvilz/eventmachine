@@ -4,7 +4,7 @@
     "authors": [
         "Matiss Treinis <mrtreinis@gmail.com>"
     ],
-    "description": "A light-weight implementation of event emitter",
+    "description": "EventMachine is a light-weight, deferred execution event emitter",
     "main": "dist/eventmachine.js",
     "keywords": [
         "eventmachine",
